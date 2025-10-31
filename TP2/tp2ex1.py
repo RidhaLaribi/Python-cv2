@@ -9,6 +9,8 @@ im1 = cv2.imread('../Images/cameraman.bmp', cv2.IMREAD_GRAYSCALE)
 
 gaussian_noise = np.random.normal(0, 10, im1.shape)
 
+print(gaussian_noise)
+
 im2 = im1 + gaussian_noise
 im2 = np.clip(im2, 0, 255).astype(np.uint8)
 
