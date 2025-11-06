@@ -95,3 +95,101 @@ cv2.imshow("3fmed",imf33)
 
 cv2.waitKey(0)
 cv2.destroyAllWindows()
+
+def calculate_psnr(im1, im2):
+    mse = np.mean((im1.astype(np.float32) - im2.astype(np.float32)) ** 2)
+    if mse == 0:
+        return float("inf")  # Images identical
+    R = 255.0
+    psnr = 10 * np.log10((R * R) / mse)
+    return psnr
+
+
+
+# ---- PSNR using OpenCV ----
+psnr_im1_im2 = cv2.PSNR(im1, im2)
+psnr_im1_imf2 = cv2.PSNR(im1, imf2)
+psnr_im1_imfm2 = cv2.PSNR(im1, imf22)
+psnr_im1_im3 = cv2.PSNR(im1, im3)
+psnr_im1_imf3 = cv2.PSNR(im1, imf3)
+psnr_im1_imfm3 = cv2.PSNR(im1, imf33)
+
+print("----- PSNR with OpenCV -----")
+print("PSNR(im1, im2) =", psnr_im1_im2)
+print("PSNR(im1, imf2) =", psnr_im1_imf2)
+print("PSNR(im1, imfm2) =", psnr_im1_imfm2)
+print("PSNR(im1, im3) =", psnr_im1_im3)
+print("PSNR(im1, imf3) =", psnr_im1_imf3)
+print("PSNR(im1, imfm3) =", psnr_im1_imfm3)
+
+# ---- PSNR using our own function ----
+print("\n----- PSNR with custom function -----")
+print("PSNR(im1, im2) =", calculate_psnr(im1, im2))
+print("PSNR(im1, imf2) =", calculate_psnr(im1, imf2))
+print("PSNR(im1, imfm2) =", calculate_psnr(im1, imf33))
+print("PSNR(im1, im3) =", calculate_psnr(im1, im3))
+print("PSNR(im1, imf3) =", calculate_psnr(im1, imf3))
+print("PSNR(im1, imfm2) =", calculate_psnr(im1, imf33))
+
+
+
+import time
+
+
+results = []
+
+#   MOY FILTERS
+for k in [3, 5, 7]:
+    start = time.time()
+    f = cv2.blur(im2, (k, k))
+    t = time.time() - start
+    results.append(("Moy", f"{k}x{k}", "im2", cv2.PSNR(im1, f), t))
+
+    start = time.time()
+    f = cv2.blur(im3, (k, k))
+    t = time.time() - start
+    results.append(("Moy", f"{k}x{k}", "im3", cv2.PSNR(im1, f), t))
+
+
+# GAUSSIAN FILTERS
+for k in [3, 5]:
+    for sigma in [2, 1.5, 1, 0.5]:
+        start = time.time()
+        f = cv2.GaussianBlur(im2, (k, k), sigma)
+        t = time.time() - start
+        results.append(("Gaussian", f"{k}x{k}, σ={sigma}", "im2", cv2.PSNR(im1, f), t))
+
+        start = time.time()
+        f = cv2.GaussianBlur(im3, (k, k), sigma)
+        t = time.time() - start
+        results.append(("Gaussian", f"{k}x{k}, σ={sigma}", "im3", cv2.PSNR(im1, f), t))
+
+
+# MEDIAN FILTERS
+for k in [3, 5, 7]:
+    start = time.time()
+    f = cv2.medianBlur(im2, k)
+    t = time.time() - start
+    results.append(("Median", f"{k}x{k}", "im2", cv2.PSNR(im1, f), t))
+
+    start = time.time()
+    f = cv2.medianBlur(im3, k)
+    t = time.time() - start
+    results.append(("Median", f"{k}x{k}", "im3", cv2.PSNR(im1, f), t))
+
+
+# BILATERAL FILTER
+start = time.time()
+f = cv2.bilateralFilter(im2, 7, 40, 40)
+t = time.time() - start
+results.append(("Bilateral", "d=7", "im2", cv2.PSNR(im1, f), t))
+
+start = time.time()
+f = cv2.bilateralFilter(im3, 7, 40, 40)
+t = time.time() - start
+results.append(("Bilateral", "d=7", "im3", cv2.PSNR(im1, f), t))
+
+print("\n---- RESULTS ----")
+print("Filter\t\tParams\t\tImage\tPSNR(dB)\tTime(s)")
+for r in results:
+    print(f"{r[0]:10} {r[1]:15} {r[2]:5} {r[3]:8.3f}   {r[4]:.6f}")
