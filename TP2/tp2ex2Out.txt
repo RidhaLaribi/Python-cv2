@@ -1,0 +1,33 @@
+---- RESULTS ----
+Filter		Params		Image	PSNR(dB)	Time(s)
+Mean       3x3             im2     24.216   0.000000
+Mean       3x3             im3     20.630   0.000000
+Mean       5x5             im2     21.604   0.000000
+Mean       5x5             im3     20.204   0.001003
+Mean       7x7             im2     20.413   0.000000
+Mean       7x7             im3     19.545   0.000000
+Gaussian   3x3, σ=2        im2     24.471   0.013004
+Gaussian   3x3, σ=2        im3     20.724   0.000000
+Gaussian   3x3, σ=1.5      im2     24.709   0.000000
+Gaussian   3x3, σ=1.5      im3     20.789   0.000000
+Gaussian   3x3, σ=1        im2     25.465   0.000000
+Gaussian   3x3, σ=1        im3     20.857   0.000000
+Gaussian   3x3, σ=0.5      im2     29.391   0.000000
+Gaussian   3x3, σ=0.5      im3     17.994   0.000000
+Gaussian   5x5, σ=2        im2     22.314   0.000000
+Gaussian   5x5, σ=2        im3     20.641   0.000000
+Gaussian   5x5, σ=1.5      im2     22.866   0.000000
+Gaussian   5x5, σ=1.5      im3     20.893   0.000000
+Gaussian   5x5, σ=1        im2     24.495   0.000000
+Gaussian   5x5, σ=1        im3     21.190   0.000000
+Gaussian   5x5, σ=0.5      im2     29.391   0.001021
+Gaussian   5x5, σ=0.5      im3     17.994   0.000000
+Median     3x3             im2     25.590   0.000000
+Median     3x3             im3     24.972   0.000000
+Median     5x5             im2     22.386   0.000976
+Median     5x5             im3     22.147   0.001001
+Median     7x7             im2     21.227   0.002990
+Median     7x7             im3     21.066   0.015004
+Bilateral  d=7             im2     30.003   0.002000
+Bilateral  d=7             im3     14.797   0.004008
+
