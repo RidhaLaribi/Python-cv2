@@ -2,12 +2,21 @@ import cv2
 import numpy as np
 import random
 
+
+
+
+
+
+
 # -------------------- 1) Lecture de l'image --------------------
 im1 = cv2.imread('../Images/cameraman.bmp', cv2.IMREAD_GRAYSCALE)
 
 # -------------------- 2) Bruit gaussien additif --------------------
 
 gaussian_noise = np.random.normal(0, 10, im1.shape)
+
+# gaussien_noise = np.zeros(im1.shape, np.float32)
+# cv2.randn(gaussien_noise, 0, 10)
 
 print(gaussian_noise)
 
@@ -72,8 +81,7 @@ im3 = sp_noise(im1, p)
 # Affichage
 cv2.imshow("Image originale", im1)
 cv2.imshow(f"Image bruitée )", im3)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
+
 
 cv2.imwrite('../Images/cameraman_bruit_sel_poivre_p_10.bmp', im3)
 
@@ -83,5 +91,4 @@ cv2.imshow("Bruit Gaussien", im2)
 cv2.imshow("Bruit Sel et Poivre", im3)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
-
 
